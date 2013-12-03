@@ -45,8 +45,7 @@
 	FEP.supports.historyState = ( history.replaceState ) ? true : false;
 
 	FEP.tabs = function( selector, settings ){
-		console.log(typeof selector);
-		console.log( selector);
+
 		var tabBlocks = Array.prototype.slice.call( document.querySelectorAll( selector ) );		
 		
 		var scrollLocation;
@@ -57,20 +56,14 @@
 		}
 		var options = defaults;
 		
-		
+		//  Custom events
+        var loadhash = document.createEvent('Event');
+            loadhash.initEvent('loadhash', true, true);
+        var loadTAB = document.createEvent('Event');
+            loadTAB.initEvent('loadTAB', true, true);
+
 		var fn = {
 		
-			loadhash: new Event('loadhash', {
-			    'view': this.elem,
-			    'bubbles': true,
-			    'cancelable': true
-			}),
-			loadTAB: new Event('loadTAB', {
-			    'view': this.elem,
-			    'bubbles': true,
-			    'cancelable': true
-			}),
-
 			tabEvent: function( event ){
 				if( event.target.className.indexOf( "tabs-tab-link" ) < 0 ) {
 					return false;
@@ -122,7 +115,7 @@
 			},
 
 			init: function(){
-				
+
 				this.elem.className += " loaded";
 
 				//  Attach events
@@ -135,9 +128,9 @@
 				
 				//  Load a tab!
 				if( !window.location.hash ){
-					this.elem.querySelector( ".tabs-tab-link" ).dispatchEvent( this.loadTAB )
+					this.elem.querySelector( ".tabs-tab-link" ).dispatchEvent( loadTAB )
 				} else if( this.elem.querySelectorAll(  window.location.hash ).length > 0){
-					this.elem.querySelector( ".tabs-tab-link[href='" + window.location.hash + "']" ).dispatchEvent( this.loadhash )
+					this.elem.querySelector( ".tabs-tab-link[href='" + window.location.hash + "']" ).dispatchEvent( loadhash )
 				} else if( this.elem.querySelectorAll(  window.location.hash ).length === 0){
 					this.elem.querySelector( ".tabs-tab" ).className += " active";
 					this.elem.querySelector( ".tabs-pane" ).className += " target";
