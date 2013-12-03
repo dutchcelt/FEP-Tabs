@@ -5,45 +5,44 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" type="text/css" href="../tabs.css" media="screen" />
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+        <style>
+	        .tabs{ margin: 3rem auto; width: 32rem; }
+	        .tabs-list{ margin: 0 0 1rem; }
+        </style>
+<!-- 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script> -->
 		<script type="text/javascript" src="../tabs.js"></script>
-        <script>
-            $(document).ready(function(){
-                FEP.tabs( ".tabs", { historyState: true } )
-                	.css({ width: "400px", margin: "3em auto"})
-                	.find( ".tabs-list" )
-                		.css({ marginBottom: "1em" });
-            });
-        </script>        
     </head>
     <body>
-            <div class="tabs">
+        <div class="tabs">
+        
+            <ul class="tabs-list">
+                <li class="tabs-tab"><a href="#id01" class="tabs-tab-link">One</a></li>
+                <li class="tabs-tab"><a href="#id02" class="tabs-tab-link">Two</a></li>
+                <li class="tabs-tab"><a href="#id03" class="tabs-tab-link">Three</a></li>
+                <li class="tabs-tab"><a href="#id04" class="tabs-tab-link">Four</a></li>
+            </ul>
             
-                <ul class="tabs-list">
-                    <li class="tabs-tab"><a href="#id01" class="tabs-tab-link">One</a></li>
-                    <li class="tabs-tab"><a href="#id02" class="tabs-tab-link">Two</a></li>
-                    <li class="tabs-tab"><a href="#id03" class="tabs-tab-link">Three</a></li>
-                    <li class="tabs-tab"><a href="#id04" class="tabs-tab-link">Four</a></li>
-                </ul>
-                
-                <div id="id01" class="tabs-pane"><strong>Tab 1</strong>: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-                <div id="id02" class="tabs-pane"><strong>Tab 2</strong>: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</div>
-                <div id="id03" class="tabs-pane"><strong>Tab 3</strong>: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</div>
-                <div id="id04" class="tabs-pane"><strong>Tab 4</strong>: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</div>
-            </div>
-            <div class="tabs">
+            <div id="id01" class="tabs-pane"><strong>Tab 1</strong>: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+            <div id="id02" class="tabs-pane"><strong>Tab 2</strong>: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</div>
+            <div id="id03" class="tabs-pane"><strong>Tab 3</strong>: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</div>
+            <div id="id04" class="tabs-pane"><strong>Tab 4</strong>: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</div>
+        </div>
+        <div class="tabs">
+        
+            <ul class="tabs-list">
+                <li class="tabs-tab"><a href="#idb01" class="tabs-tab-link">One</a></li>
+                <li class="tabs-tab"><a href="#idb02" class="tabs-tab-link">Two</a></li>
+                <li class="tabs-tab"><a href="#idb03" class="tabs-tab-link">Three</a></li>
+                <li class="tabs-tab"><a href="#idb04" class="tabs-tab-link">Four</a></li>
+            </ul>
             
-                <ul class="tabs-list">
-                    <li class="tabs-tab"><a href="#idb01" class="tabs-tab-link">One</a></li>
-                    <li class="tabs-tab"><a href="#idb02" class="tabs-tab-link">Two</a></li>
-                    <li class="tabs-tab"><a href="#idb03" class="tabs-tab-link">Three</a></li>
-                    <li class="tabs-tab"><a href="#idb04" class="tabs-tab-link">Four</a></li>
-                </ul>
-                
-                <div id="idb01" class="tabs-pane"><strong>Tab 1</strong>: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-                <div id="idb02" class="tabs-pane"><strong>Tab 2</strong>: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</div>
-                <div id="idb03" class="tabs-pane"><strong>Tab 3</strong>: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</div>
-                <div id="idb04" class="tabs-pane"><strong>Tab 4</strong>: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</div>
-            </div>
+            <div id="idb01" class="tabs-pane"><strong>Tab 1</strong>: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+            <div id="idb02" class="tabs-pane"><strong>Tab 2</strong>: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</div>
+            <div id="idb03" class="tabs-pane"><strong>Tab 3</strong>: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</div>
+            <div id="idb04" class="tabs-pane"><strong>Tab 4</strong>: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</div>
+        </div>
+        <script>
+                FEP.tabs( ".tabs" );
+        </script>        
     </body>
 </html>
