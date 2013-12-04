@@ -22,9 +22,9 @@
 
 
 (function( factory ){
- 
+
 	"use strict";
- 
+
 	if( typeof define === 'function' && define.amd ){
 		// AMD. Register as an anonymous module.
 		define( ['FEP-Tabs'], factory );
@@ -32,40 +32,40 @@
 		// Browser globals
 		factory( window );
 	}
- 
+
 })( function(){
 
 	"use strict";
 
 	//  Detect if the FEP namespace is available. (FEP = Front-end Patterns)
-	if( window.FEP === void 0 ) {
+	if( window.FEP === void 0 ){
 		window.FEP = { 'supports': {} };
 	}
-	
+
 	FEP.supports.historyState = ( history.replaceState ) ? true : false;
 
 	FEP.tabs = function( selector, settings ){
 
-		var tabBlocks = Array.prototype.slice.call( document.querySelectorAll( selector ) );		
-		
+		var tabBlocks = Array.prototype.slice.call( document.querySelectorAll( selector ) );
+
 		var scrollLocation;
 		var hash = window.location.hash || "";
-		
+
 		var defaults = {
-			historyState : FEP.supports.historyState
+			historyState: FEP.supports.historyState
 		}
 		var options = defaults;
-		
+
 		//  Custom events
-        var loadhash = document.createEvent('Event');
-            loadhash.initEvent('loadhash', true, true);
-        var loadTAB = document.createEvent('Event');
-            loadTAB.initEvent('loadTAB', true, true);
+		var loadhash = document.createEvent( 'Event' );
+		loadhash.initEvent( 'loadhash', true, true );
+		var loadTAB = document.createEvent( 'Event' );
+		loadTAB.initEvent( 'loadTAB', true, true );
 
 		var fn = {
-		
+
 			tabEvent: function( event ){
-				if( event.target.className.indexOf( "tabs-tab-link" ) < 0 ) {
+				if( event.target.className.indexOf( "tabs-tab-link" ) < 0 ){
 					return false;
 				}
 				event.preventDefault();
@@ -80,7 +80,7 @@
 					if( event.type === "click" ){
 						history.pushState( {}, document.title, hash );
 					}
-					if( event.type === "loadTAB"  ){
+					if( event.type === "loadTAB" ){
 						history.replaceState( {}, document.title, hash );
 					}
 					this.hashEvent( event );
@@ -90,26 +90,26 @@
 
 			hashEvent: function( event ){
 				event.preventDefault();
-				if( this.elem.querySelectorAll( hash ).length === 0 ) { return false };
+				if( this.elem.querySelectorAll( hash ).length === 0 ){ return false }
+				;
 				document.documentElement.scrollTop = scrollLocation
 				this.setTab();
 			},
 
 			setTab: function(){
-			
+
 				var target = this.elem.querySelector( ".target" );
+				var active = this.elem.querySelector( ".active" );
+				
 				if( target ){
-					target.className = target.className.replace( /(?:^|\s)target(?!\S)/ , '' );	
+					target.className = target.className.replace( /(?:^|\s)target(?!\S)/, '' );
 				}
-				if ( hash ){
-					this.elem.querySelector( hash ).className += " target";
+				if( active ){
+					active.className = active.className.replace( /(?:^|\s)active(?!\S)/, '' );
 				}
 				
-				var active = this.elem.querySelector( ".active" );
-				if( active ){
-					active.className = active.className.replace( /(?:^|\s)active(?!\S)/ , '' );	
-				}
-				if ( hash ){
+				if( hash ){
+					this.elem.querySelector( hash ).className += " target";
 					this.elem.querySelector( ".tabs-tab-link[href='" + hash + "']" ).parentNode.className += " active";
 				}
 			},
@@ -119,19 +119,19 @@
 				this.elem.className += " loaded";
 
 				//  Attach events
-				this.elem.addEventListener('click', this.tabEvent.bind( this ), false);
-				this.elem.addEventListener('loadhash', this.tabEvent.bind( this ), false);
-				this.elem.addEventListener('loadTAB', this.tabEvent.bind( this ), false);
-				
-				window.addEventListener('hashchange', this.hashEvent.bind( this ), false);
-				
-				
+				this.elem.addEventListener( 'click', this.tabEvent.bind( this ), false );
+				this.elem.addEventListener( 'loadhash', this.tabEvent.bind( this ), false );
+				this.elem.addEventListener( 'loadTAB', this.tabEvent.bind( this ), false );
+
+				window.addEventListener( 'hashchange', this.hashEvent.bind( this ), false );
+
+
 				//  Load a tab!
 				if( !window.location.hash ){
 					this.elem.querySelector( ".tabs-tab-link" ).dispatchEvent( loadTAB )
-				} else if( this.elem.querySelectorAll(  window.location.hash ).length > 0){
+				} else if( this.elem.querySelectorAll( window.location.hash ).length > 0 ){
 					this.elem.querySelector( ".tabs-tab-link[href='" + window.location.hash + "']" ).dispatchEvent( loadhash )
-				} else if( this.elem.querySelectorAll(  window.location.hash ).length === 0){
+				} else if( this.elem.querySelectorAll( window.location.hash ).length === 0 ){
 					this.elem.querySelector( ".tabs-tab" ).className += " active";
 					this.elem.querySelector( ".tabs-pane" ).className += " target";
 				}
@@ -139,16 +139,16 @@
 
 		};
 
-		return ( function(){
-		
+		return (function(){
+
 			tabBlocks.forEach( function( tabsElem ){
 				var newFn = Object.create( fn );
-				newFn.elem = tabsElem ;
+				newFn.elem = tabsElem;
 				newFn.init();
-			});
+			} );
 
 		})();
 
 	};
 
-});
+} );
