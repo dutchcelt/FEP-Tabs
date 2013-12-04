@@ -50,11 +50,11 @@
 
 		var scrollLocation;
 		var hash = window.location.hash || "";
-
 		var defaults = {
 			historyState: FEP.supports.historyState
 		}
-		var options = defaults;
+		var options = Object.create( defaults );
+		for (var key in settings) { options[key] = settings[key]; }
 
 		//  Custom events
 		var loadhash = document.createEvent( 'Event' );
