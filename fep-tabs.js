@@ -90,8 +90,8 @@
 
 			hashEvent: function( event ){
 				event.preventDefault();
-				if( this.elem.querySelectorAll( hash ).length === 0 ){ return false }
-				;
+				hash = window.location.hash;
+				if( this.elem.querySelectorAll( hash ).length === 0 ){ return false; };
 				document.documentElement.scrollTop = scrollLocation
 				this.setTab();
 			},
