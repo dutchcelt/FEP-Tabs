@@ -1,12 +1,12 @@
 {
   "name": "FEP-Tabs",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "homepage": "https://github.com/dutchcelt/FEP-Tabs",
   "authors": [
     "C. Egor Kloos"
   ],
-  "description": "An module script for fast loading tabs using :target and history state.",
-  "main": [ "fep-tabs.js, fep-tabs.css" ],
+  "description": "A module script for fast loading tabs using :target and history state.",
+  "main": [ "fep-tabs.js", "fep-tabs.css" ],
   "keywords": [
     "FE-Patterns",
     "FEP",
