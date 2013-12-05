@@ -66,8 +66,14 @@
 
 		var scrollLocation;
 		var hash = window.location.hash || "";
+		
 		var defaults = {
-			historyState: FEP.supports.historyState
+			historyState: this.supports.historyState,
+			tab : "tabs-tab",
+			pane: "tabs-pane",
+			link: "tabs-tab-link",
+			target : "target",
+			active : "active"
 		}
 		var options = Object.create( defaults );
 		for (var key in settings) { options[key] = settings[key]; }
@@ -81,7 +87,7 @@
 			
 				event.preventDefault();
 				
-				if( event.target.className.indexOf( "tabs-tab-link" ) < 0 ){
+				if( event.target.className.indexOf( options.link ) < 0 ){
 					return false;
 				}
 				scrollLocation = document.documentElement.scrollTop;
@@ -113,8 +119,8 @@
 
 			setTab: function(){
 
-				var target = this.elem.querySelector( ".target" );
-				var active = this.elem.querySelector( ".active" );
+				var target = this.elem.querySelector( "." + options.target );
+				var active = this.elem.querySelector( "." + options.active );
 				
 				if( target ){
 					target.className = target.className.replace( /(?:^|\s)target(?!\S)/, '' );
@@ -124,8 +130,8 @@
 				}
 				
 				if( hash ){
-					this.elem.querySelector( hash ).className += " target";
-					this.elem.querySelector( ".tabs-tab-link[href='" + hash + "']" ).parentNode.className += " active";
+					this.elem.querySelector( hash ).className += " " + options.target;
+					this.elem.querySelector( "." + options.link + "[href='" + hash + "']" ).parentNode.className += " " + options.active;
 				}
 			},
 
@@ -143,12 +149,12 @@
 
 				//  Load a tab!
 				if( !window.location.hash ){
-					this.elem.querySelector( ".tabs-tab-link" ).dispatchEvent( loadTAB )
+					this.elem.querySelector( "." + options.link ).dispatchEvent( loadTAB )
 				} else if( this.elem.querySelectorAll( window.location.hash ).length > 0 ){
-					this.elem.querySelector( ".tabs-tab-link[href='" + window.location.hash + "']" ).dispatchEvent( loadhash )
+					this.elem.querySelector( "." + options.link + "[href='" + window.location.hash + "']" ).dispatchEvent( loadhash )
 				} else if( this.elem.querySelectorAll( window.location.hash ).length === 0 ){
-					this.elem.querySelector( ".tabs-tab" ).className += " active";
-					this.elem.querySelector( ".tabs-pane" ).className += " target";
+					this.elem.querySelector( "." + options.tab ).className +=  " " + options.active;
+					this.elem.querySelector( "." + options.pane ).className += " " + options.target;
 				}
 			}
 
