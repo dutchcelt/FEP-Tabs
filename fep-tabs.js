@@ -43,7 +43,23 @@
 	}
 
 	FEP.supports.historyState = ( history.replaceState ) ? true : false;
-
+	
+	FEP.createCustomEvent = function( eventName, data ){
+		var newEvent;
+		try {
+			newEvent = new CustomEvent( eventName, {
+			    'bubbles'	: true,
+			    'cancelable': true,
+			    'detail'	: data
+			});
+		} catch (e) {
+			newEvent = document.createEvent( 'Event' );
+			newEvent.initEvent( eventName, true, true );
+		} finally {
+			return newEvent;
+		}
+	};
+	
 	FEP.tabs = function( selector, settings ){
 
 		var tabBlocks = Array.prototype.slice.call( document.querySelectorAll( selector ) );
@@ -55,20 +71,19 @@
 		}
 		var options = Object.create( defaults );
 		for (var key in settings) { options[key] = settings[key]; }
-
-		//  Custom events
-		var loadhash = document.createEvent( 'Event' );
-		loadhash.initEvent( 'loadhash', true, true );
-		var loadTAB = document.createEvent( 'Event' );
-		loadTAB.initEvent( 'loadTAB', true, true );
-
+		
+		var loadhash = this.createCustomEvent( "loadhash" );
+		var loadTAB = this.createCustomEvent( "loadTAB" );
+		
 		var fn = {
 
 			tabEvent: function( event ){
+			
+				event.preventDefault();
+				
 				if( event.target.className.indexOf( "tabs-tab-link" ) < 0 ){
 					return false;
 				}
-				event.preventDefault();
 				scrollLocation = document.documentElement.scrollTop;
 				hash = event.target.getAttribute( 'href' );
 
