@@ -1,7 +1,8 @@
 /*! ###########################################################################
 
  Source: https://github.com/dutchcelt/FEP-Tabs
-
+ Version: 0.4.1
+ 
  Copyright (C) 2011 - 2013, C. Egor Kloos. All rights reserved.
  GNU General Public License, version 3 (GPL-3.0)
 
@@ -44,6 +45,10 @@
 
 	FEP.supports.historyState = ( history.replaceState ) ? true : false;
 	
+	///////////////////////////////////////////////////////////////////////
+	//	Little script to create custom events. 
+	//	IE doesn't support the constructor technique 
+	//	added the createEvent() as a fallback
 	FEP.createCustomEvent = function( eventName, data ){
 		var newEvent;
 		try {
@@ -59,14 +64,19 @@
 			return newEvent;
 		}
 	};
+	///////////////////////////////////////////////////////////////////////
+	
 	
 	FEP.tabs = function( selector, settings ){
-
+		
+		//	Put all nodelist elements from 'selector' in to an array
 		var tabBlocks = Array.prototype.slice.call( document.querySelectorAll( selector ) );
-
+		
+		//	Window related vars
 		var scrollLocation;
 		var hash = window.location.hash || "";
 		
+		//	Defaults for setting history state and the ability to customise HTML class attributes
 		var defaults = {
 			historyState: this.supports.historyState,
 			tab : "tabs-tab",
@@ -75,11 +85,17 @@
 			target : "target",
 			active : "active"
 		}
-		var options = Object.create( defaults );
+		var options = Object.create( defaults ); // Add 'defaults' to __proto__
 		for (var key in settings) { options[key] = settings[key]; }
 		
+		//	Custom events
 		var loadhash = this.createCustomEvent( "loadhash" );
 		var loadTAB = this.createCustomEvent( "loadTAB" );
+		
+		//	Regular expressions to strip out HTML class attributes
+		var regExpTarget = new RegExp("(?:^|\\s)" + options.target + "(?!\\S)","g");
+		var regExpActive = new RegExp("(?:^|\\s)" + options.active + "(?!\\S)","g");
+
 		
 		var fn = {
 
@@ -121,12 +137,11 @@
 
 				var target = this.elem.querySelector( "." + options.target );
 				var active = this.elem.querySelector( "." + options.active );
-				
 				if( target ){
-					target.className = target.className.replace( /(?:^|\s)target(?!\S)/, '' );
+					target.className = target.className.replace( regExpTarget, '' );
 				}
 				if( active ){
-					active.className = active.className.replace( /(?:^|\s)active(?!\S)/, '' );
+					active.className = active.className.replace( regExpActive, '' );
 				}
 				
 				if( hash ){
