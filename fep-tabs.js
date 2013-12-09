@@ -1,7 +1,7 @@
 /*! ###########################################################################
 
  Source: https://github.com/dutchcelt/FEP-Tabs
- Version: 0.4.1
+ Version: 0.4.2
  
  Copyright (C) 2011 - 2013, C. Egor Kloos. All rights reserved.
  GNU General Public License, version 3 (GPL-3.0)
@@ -39,39 +39,51 @@
 	"use strict";
 
 	//  Detect if the FEP namespace is available. (FEP = Front-end Patterns)
-	if( window.FEP === void 0 ){
-		window.FEP = { 'supports': {} };
-	}
-
+	window.FEP = window.FEP || {};
+	FEP.supports = FEP.supports || {};
+	
 	FEP.supports.historyState = ( history.replaceState ) ? true : false;
-	
-	///////////////////////////////////////////////////////////////////////
-	//	Little script to create custom events. 
-	//	IE doesn't support the constructor technique 
-	//	added the createEvent() as a fallback
-	FEP.createCustomEvent = function( eventName, data ){
-		var newEvent;
-		try {
-			newEvent = new CustomEvent( eventName, {
-			    'bubbles'	: true,
-			    'cancelable': true,
-			    'detail'	: data
-			});
-		} catch (e) {
-			newEvent = document.createEvent( 'Event' );
-			newEvent.initEvent( eventName, true, true );
-		} finally {
-			return newEvent;
-		}
-	};
-	///////////////////////////////////////////////////////////////////////
-	
-	
+
 	FEP.tabs = function( selector, settings ){
+	
+		var createCustomEvent = function( eventName, data ){
+			var newEvent;
+			try {
+				newEvent = new CustomEvent( eventName, {
+				    'bubbles'	: true,
+				    'cancelable': true,
+				    'detail'	: data
+				});
+			} catch (e) {
+				newEvent = document.createEvent( 'Event' );
+				newEvent.initEvent( eventName, true, true );
+			} finally {
+				return newEvent;
+			}
+		};	
 		
-		//	Put all nodelist elements from 'selector' in to an array
-		var tabBlocks = Array.prototype.slice.call( document.querySelectorAll( selector ) );
+		var selectorArray = function( selector, domElem ){
+			return Array.prototype.slice.call( ( domElem || document ).querySelectorAll( selector ) );
+		};
 		
+		//	Regular expression function to help with HTML class attributes
+		var classNameRegEx = function( classNameString ) {
+			var newRegEx = new RegExp("(?:^|\\s)" + classNameString + "(?!\\S)","g");
+			return newRegEx;
+		};
+		
+		//	Invoke with call() to pass the DOM context via 'this'
+		var stripClassName = function( classNameString ){
+			selectorArray( "." + classNameString, this.elem ).forEach( function( domElem ){
+				domElem.className = domElem.className.replace( classNameRegEx( classNameString ), '' );
+			} );
+		};	
+		var addClassName = function( classNameString ){
+			if( !classNameRegEx( classNameString ).test( this.className ) ) {
+				this.className += " " + classNameString
+			}
+		};	
+				
 		//	Window related vars
 		var scrollLocation;
 		var hash = window.location.hash || "";
@@ -79,31 +91,27 @@
 		//	Defaults for setting history state and the ability to customise HTML class attributes
 		var defaults = {
 			historyState: this.supports.historyState,
-			tab : "tabs-tab",
-			pane: "tabs-pane",
-			link: "tabs-tab-link",
-			target : "target",
-			active : "active"
+			tabClass : "tabs-tab",
+			paneClass: "tabs-pane",
+			linkClass: "tabs-tab-link",
+			targetClass : "target",
+			activeClass : "active"
 		}
 		var options = Object.create( defaults ); // Add 'defaults' to __proto__
 		for (var key in settings) { options[key] = settings[key]; }
 		
 		//	Custom events
-		var loadhash = this.createCustomEvent( "loadhash" );
-		var loadTAB = this.createCustomEvent( "loadTAB" );
+		var loadhash = createCustomEvent( "loadhash" );
+		var loadTAB = createCustomEvent( "loadTAB" );
 		
-		//	Regular expressions to strip out HTML class attributes
-		var regExpTarget = new RegExp("(?:^|\\s)" + options.target + "(?!\\S)","g");
-		var regExpActive = new RegExp("(?:^|\\s)" + options.active + "(?!\\S)","g");
-
 		
-		var fn = {
+		var tabs = {
 
 			tabEvent: function( event ){
 			
 				event.preventDefault();
 				
-				if( event.target.className.indexOf( options.link ) < 0 ){
+				if( event.target.className.indexOf( options.linkClass ) < 0 ){
 					return false;
 				}
 				scrollLocation = document.documentElement.scrollTop;
@@ -135,18 +143,12 @@
 
 			setTab: function(){
 
-				var target = this.elem.querySelector( "." + options.target );
-				var active = this.elem.querySelector( "." + options.active );
-				if( target ){
-					target.className = target.className.replace( regExpTarget, '' );
-				}
-				if( active ){
-					active.className = active.className.replace( regExpActive, '' );
-				}
+				stripClassName.call( this, options.targetClass );
+				stripClassName.call( this, options.activeClass );
 				
 				if( hash ){
-					this.elem.querySelector( hash ).className += " " + options.target;
-					this.elem.querySelector( "." + options.link + "[href='" + hash + "']" ).parentNode.className += " " + options.active;
+					addClassName.call( this.elem.querySelector( hash ), options.targetClass );
+					addClassName.call( this.elem.querySelector( "." + options.linkClass + "[href='" + hash + "']" ).parentNode, options.activeClass );
 				}
 			},
 
@@ -164,12 +166,12 @@
 
 				//  Load a tab!
 				if( !window.location.hash ){
-					this.elem.querySelector( "." + options.link ).dispatchEvent( loadTAB )
+					this.elem.querySelector( "." + options.linkClass ).dispatchEvent( loadTAB )
 				} else if( this.elem.querySelectorAll( window.location.hash ).length > 0 ){
-					this.elem.querySelector( "." + options.link + "[href='" + window.location.hash + "']" ).dispatchEvent( loadhash )
+					this.elem.querySelector( "." + options.linkClass + "[href='" + window.location.hash + "']" ).dispatchEvent( loadhash )
 				} else if( this.elem.querySelectorAll( window.location.hash ).length === 0 ){
-					this.elem.querySelector( "." + options.tab ).className +=  " " + options.active;
-					this.elem.querySelector( "." + options.pane ).className += " " + options.target;
+					this.elem.querySelector( "." + options.tabClass ).className +=  " " + options.activeClass;
+					this.elem.querySelector( "." + options.paneClass ).className += " " + options.targetClass;
 				}
 			}
 
@@ -177,10 +179,10 @@
 
 		return (function(){
 
-			tabBlocks.forEach( function( tabsElem ){
-				var newFn = Object.create( fn );
-				newFn.elem = tabsElem;
-				newFn.init();
+			selectorArray( selector ).forEach( function( domElem ){
+				var newTabs = Object.create( tabs );
+				newTabs.elem = domElem;
+				newTabs.init();
 			} );
 
 		})();
