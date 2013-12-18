@@ -1,7 +1,7 @@
 /*! ###########################################################################
 
  Source: https://github.com/dutchcelt/FEP-Tabs
- Version: 0.4.2
+ Version: 0.4.3
  
  Copyright (C) 2011 - 2013, C. Egor Kloos. All rights reserved.
  GNU General Public License, version 3 (GPL-3.0)
@@ -55,8 +55,8 @@
 				    'detail'	: data
 				});
 			} catch (e) {
-				newEvent = document.createEvent( 'Event' );
-				newEvent.initEvent( eventName, true, true );
+				newEvent = document.createEvent( 'CustomEvent' );
+				newEvent.initCustomEvent( eventName, true, true, data);
 			} finally {
 				return newEvent;
 			}
@@ -108,9 +108,7 @@
 		var tabs = {
 
 			tabEvent: function( event ){
-			
-				event.preventDefault();
-				
+							
 				if( event.target.className.indexOf( options.linkClass ) < 0 ){
 					return false;
 				}
@@ -128,13 +126,12 @@
 					if( event.type === "loadTAB" ){
 						history.replaceState( {}, document.title, hash );
 					}
-					this.hashEvent( event );
+					this.hashEvent();
 				}
 
 			},
 
-			hashEvent: function( event ){
-				event.preventDefault();
+			hashEvent: function(){
 				hash = window.location.hash;
 				if( this.elem.querySelectorAll( hash ).length === 0 ){ return false; };
 				document.documentElement.scrollTop = scrollLocation
@@ -151,17 +148,38 @@
 					addClassName.call( this.elem.querySelector( "." + options.linkClass + "[href='" + hash + "']" ).parentNode, options.activeClass );
 				}
 			},
-
+			
+			handleEvent: function( event ){
+				
+				event.preventDefault();
+			
+				switch(event.type) {
+			    	case 'click':
+			        	this.tabEvent( event );
+						break;
+					case 'loadhash':
+			        	this.tabEvent( event );
+						break;
+			        case 'loadTAB':
+			        	this.tabEvent( event );
+						break;
+					case 'hashchange':
+						this.hashEvent( )
+						break;
+			    }
+				
+			},
+			
 			init: function(){
 
 				this.elem.className += " loaded";
 
 				//  Attach events
-				this.elem.addEventListener( 'click', this.tabEvent.bind( this ), false );
-				this.elem.addEventListener( 'loadhash', this.tabEvent.bind( this ), false );
-				this.elem.addEventListener( 'loadTAB', this.tabEvent.bind( this ), false );
+				this.elem.addEventListener( 'click', this, true );
+				this.elem.addEventListener( 'loadhash', this, true );
+				this.elem.addEventListener( 'loadTAB', this, true );
 
-				window.addEventListener( 'hashchange', this.hashEvent.bind( this ), false );
+				window.addEventListener( 'hashchange', this, true );
 
 
 				//  Load a tab!
